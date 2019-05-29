@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: softethervpn
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  selector:
+    matchLabels:
+      run: softethervpn
+  template:
+    metadata:
+      labels:
+        run: softethervpn
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: softethervpn
+        image: siomiz/softethervpn:latest
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 500
+          protocol: UDP
+        - containerPort: 4500
+          protocol: UDP
+        - containerPort: 1701
+          protocol: UDP
+        env:
+        - name: PSK
+          value: vpn
+        - name: USERS
+          value: geoser:-----
+        - name: SPW
+          value: -----
+        - name: HPW
+          value: -----
+        
