@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tproxy
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  selector:
+    matchLabels:
+      run: tproxy
+  template:
+    metadata:
+      labels:
+        run: tproxy
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: tproxy
+        image: riftbit/3proxy:latest
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 1080
+          protocol: TCP
+        - containerPort: 3128
+          protocol: TCP
+        env:
+        - name: PROXY_LOGIN
+          value: proxyuser
+        - name: PROXY_PASSWORD
+          value: DcOFZ}WIZ5Gl

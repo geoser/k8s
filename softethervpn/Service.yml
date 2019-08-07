@@ -4,6 +4,8 @@ metadata:
   name: softethervpn
   labels:
     run: softethervpn
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-mixed-protocols: "true"
 spec:
   selector:
     run: softethervpn
@@ -20,4 +22,8 @@ spec:
       port: 1701
       targetPort: 1701
       name: udp-1701
+    - protocol: UDP
+      port: 443
+      targetPort: 443
+      name: tcp-443
   type: LoadBalancer

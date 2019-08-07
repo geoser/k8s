@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tproxy
+  labels:
+    run: tproxy
+spec:
+  selector:
+    run: tproxy
+  ports:
+    - protocol: TCP
+      port: 1080
+      targetPort: 1080
+      name: tcp-1080
+    - protocol: TCP
+      port: 3128
+      targetPort: 3128
+      name: tcp-3128
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: tcp-8080
+  type: LoadBalancer
